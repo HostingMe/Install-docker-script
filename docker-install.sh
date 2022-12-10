@@ -22,7 +22,7 @@ echo \
 sudo apt update -y
 
 #install Docker from their repo instead
-sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
+sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin -y
 
 #adds your username to the docker group
 sudo usermod -aG docker ${USER}
