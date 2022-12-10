@@ -36,9 +36,9 @@ echo "docker already installed, installing wordpress and mariaDB..."
 mkdir ~/wordpress && cd ~/wordpress
 
 #pull the mariaDB image from docker
-docker run -e MYSQL_ROOT_PASSWORD=enter-your-password -e MYSQL_DATABASE=wordpress --name wordpressdb -v "$PWD/database":/var/lib/mysql -d mariadb:latest
+sudo docker run -e MYSQL_ROOT_PASSWORD=enter-your-password -e MYSQL_DATABASE=wordpress --name wordpressdb -v "$PWD/database":/var/lib/mysql -d mariadb:latest
 
 #pull the wordpress image from docker
-docker run -e WORDPRESS_DB_USER=root -e WORDPRESS_DB_PASSWORD=enter-your-password --name wordpress --link wordpressdb:mysql -p 80:80 -v "$PWD/html":/var/www/html -d wordpress
+sudo docker run -e WORDPRESS_DB_USER=root -e WORDPRESS_DB_PASSWORD=enter-your-password --name wordpress --link wordpressdb:mysql -p 80:80 -v "$PWD/html":/var/www/html -d wordpress
 
 fi
