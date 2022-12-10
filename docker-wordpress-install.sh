@@ -1,6 +1,6 @@
 #!/bin/bash
 
-if [! -d "/var/lib/docker" ] then
+if [! -d "/var/lib/docker" ]; then
     
 #docker installation      
 echo "Installing docker..."
