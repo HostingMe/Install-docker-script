@@ -1,7 +1,5 @@
 #!/bin/bash
 
-if [! -d "/var/lib/docker" ]; then
-    
 #docker installation      
 echo "Installing docker..."
 
@@ -28,8 +26,6 @@ sudo usermod -aG docker ${USER}
        
 echo "docker successfully installed."
 
-else 
-
 echo "docker already installed, installing wordpress and mariaDB..."
 
 #create local directories for mariaDB and Wordpress
@@ -41,5 +37,3 @@ sudo docker run -e MYSQL_ROOT_PASSWORD=$dbpassword -e MYSQL_DATABASE=wordpress -
 
 #pull the wordpress image from docker
 sudo docker run -e WORDPRESS_DB_USER=root -e WORDPRESS_DB_PASSWORD=$dbpassword --name wordpress --link wordpressdb:mysql -p 80:80 -v "$PWD/html":/var/www/html -d wordpress
-
-fi
