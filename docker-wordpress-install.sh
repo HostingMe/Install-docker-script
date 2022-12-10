@@ -1,5 +1,7 @@
 #!/bin/bash
 
+if [ ! -x /var/lib/docker ]; then
+      
 #docker installation      
 echo "Installing docker..."
 
@@ -25,6 +27,10 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 sudo usermod -aG docker ${USER}
        
 echo "docker successfully installed."
+
+else 
+
+echo "docker already installed, installing wordpress and mariaDB..."
 
 #create local directories for mariaDB and Wordpress
 mkdir ~/wordpress && cd ~/wordpress
