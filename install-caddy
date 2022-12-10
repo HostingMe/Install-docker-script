@@ -1,0 +1,5 @@
+#!/bin/bash
+
+#caddy install
+
+mkdir ~/wordpress/caddy/caddy_data
