@@ -19,13 +19,13 @@ echo \
   $(lsb_release -cs) stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 
 #update the packages
-apt update -y
+sudo apt update -y
 
 #install Docker from their repo instead
 sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 
 #adds your username to the docker group
-usermod -aG docker ${USER}
+sudo usermod -aG docker ${USER}
        
 echo "docker successfully installed."
 
