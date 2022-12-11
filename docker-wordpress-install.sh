@@ -56,7 +56,7 @@ END
 docker run -d --name caddy \
 -p 80:80 \
 -p 443:443 \
--v /opt/wordpress/Caddyfile:/etc/caddy/Caddyfile \
+-v /opt/wordpress/caddy/Caddyfile:/etc/caddy/Caddyfile \
 -v /opt/wordpress/caddy-data:/data \
 caddy
 
