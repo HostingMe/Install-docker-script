@@ -41,14 +41,13 @@ sudo docker run -e WORDPRESS_DB_USER=root -e WORDPRESS_DB_PASSWORD=$dbpassword -
 echo "wordpress has been successfully installed."
 
 #prep to insall caddy
-sudo mkdir -p /opt/wordpress/caddy
 sudo mkdir -p /opt/wordpress/caddy/caddy-data
 
 #get server ip and save
-ip=hostname -I | cut -f1 -d' '
+read -p "Please enter your servers IP address: " serverip
 
-cat >> ~/opt/caddy/Caddyfile << 'END'
-$ip {
+cat >> /opt/caddy/Caddyfile << 'END'
+echo $serverip {
     reverse_proxy wordpress:3001
 }
 END
