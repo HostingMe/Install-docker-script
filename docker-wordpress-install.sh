@@ -29,8 +29,8 @@ echo "docker successfully installed."
 echo "docker already installed, installing wordpress and mariaDB..."
 
 #create local directories for mariaDB and Wordpress
-sudo mkdir ~/wordpress 
-cd ~/wordpress
+cd ~
+sudo mkdir wordpress
 
 #pull the mariaDB image from docker
 read -p "Please enter a database password: " dbpassword
