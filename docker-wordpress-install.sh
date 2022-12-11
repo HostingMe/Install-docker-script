@@ -46,8 +46,9 @@ sudo mkdir -p /opt/wordpress/caddy/caddy-data
 #get server ip and save
 read -p "Please enter your servers IP address: " serverip
 cd /opt/wordpress/caddy/
+sudo touch Caddyfile
 
-cat > Caddyfile <<- "EOF"
+sudo cat > Caddyfile <<- "EOF"
 $serverip {
     reverse_proxy wordpress:3001
 }
