@@ -45,19 +45,20 @@ sudo mkdir -p /opt/wordpress/caddy/caddy-data
 
 #get server ip and save
 read -p "Please enter your servers IP address: " serverip
+cd /opt/wordpress/caddy/
 
-cat >> /opt/caddy/Caddyfile << 'END'
-echo $serverip {
+cat > Caddyfile <<- "EOF"
+$serverip {
     reverse_proxy wordpress:3001
 }
-END
+EOF
 
 #install caddy
 docker run -d --name caddy \
 -p 80:80 \
 -p 443:443 \
 -v /opt/wordpress/caddy/Caddyfile:/etc/caddy/Caddyfile \
--v /opt/wordpress/caddy-data:/data \
+-v /opt/wordpress/caddy/caddy-data:/data \
 caddy
 
 #create docker networks
