@@ -26,8 +26,6 @@ sudo usermod -aG docker ${USER}
        
 echo "docker successfully installed."
 
-echo "docker already installed, installing wordpress and mariaDB..."
-
 #create local directories for mariaDB and Wordpress
 sudo mkdir -p /opt/wordpress/
 
@@ -35,5 +33,35 @@ sudo mkdir -p /opt/wordpress/
 read -p "Please enter a database password: " dbpassword
 sudo docker run -e MYSQL_ROOT_PASSWORD=$dbpassword -e MYSQL_DATABASE=wordpress --name wordpressdb -v "/opt/wordpress/database":/var/lib/mysql -d mariadb:latest
 
+echo "database has been successfully installed."
+
 #pull the wordpress image from docker
-sudo docker run -e WORDPRESS_DB_USER=root -e WORDPRESS_DB_PASSWORD=$dbpassword --name wordpress --link wordpressdb:mysql -p 80:80 -v "/opt/wordpress/html":/var/www/html -d wordpress
+sudo docker run -e WORDPRESS_DB_USER=root -e WORDPRESS_DB_PASSWORD=$dbpassword --name wordpress --link wordpressdb:mysql -p 3001:3001 -v "/opt/wordpress/html":/var/www/html -d wordpress
+
+echo "wordpress has been successfully installed."
+
+#prep to insall caddy
+sudo mkdir -p /opt/wordpress/caddy
+sudo mkdir -p /opt/wordpress/caddy/caddy-data
+
+#get server ip and save
+ip=hostname -I | cut -f1 -d' '
+
+cat >> ~/opt/caddy/Caddyfile << 'END'
+$ip {
+    reverse_proxy wordpress:3001
+}
+END
+
+#install caddy
+docker run -d --name caddy \
+-p 80:80 \
+-p 443:443 \
+-v /opt/wordpress/Caddyfile:/etc/caddy/Caddyfile \
+-v /opt/wordpress/caddy-data:/data \
+caddy
+
+#create docker networks
+docker network create caddy
+docker network connect caddy wordpress
+docker network connect caddy caddy
