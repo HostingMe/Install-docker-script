@@ -49,7 +49,7 @@ cd /opt/wordpress/caddy/
 sudo touch Caddyfile
 
 sudo cat > Caddyfile <<- "EOF"
-$serverip {
+echo $serverip {
     reverse_proxy wordpress:3001
 }
 EOF
