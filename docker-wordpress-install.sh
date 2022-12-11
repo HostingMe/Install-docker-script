@@ -48,8 +48,8 @@ read -p "Please enter your servers IP address: " serverip
 cd /opt/wordpress/caddy/
 sudo touch Caddyfile
 
-sudo cat > Caddyfile <<- "EOF"
-echo $serverip {
+sudo cat > Caddyfile << EOF
+$serverip {
     reverse_proxy wordpress:3001
 }
 EOF
