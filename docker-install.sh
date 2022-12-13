@@ -1,9 +1,6 @@
 #!/bin/bash
 
-#docker_installation
-
-if [ ! -x /var/lib/docker ]; then
-      
+#docker installation      
 echo "Installing docker..."
 
 #install docker dependencies 
@@ -26,11 +23,12 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 
 #adds your username to the docker group
 sudo usermod -aG docker ${USER}
-       
-echo "docker successfully installed."
 
-else
+echo "docker successfully installed"
+echo "Installing docker compose"
 
-echo "Docker already installed, nothing to do."
+#install docker-compose
+sudo apt-get update
+sudo apt-get install docker-compose-plugin
 
-fi
+echo "docker-compose successfully installed"
