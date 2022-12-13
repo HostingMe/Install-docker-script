@@ -32,3 +32,5 @@ sudo apt-get update
 sudo apt-get install docker-compose-plugin
 
 echo "docker-compose successfully installed"
+
+mkdir -p /opt/wordpress/database && /opt/wordpress/wordpress && /opt/wordpress/caddy
