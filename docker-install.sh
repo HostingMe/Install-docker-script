@@ -1,8 +1,6 @@
 #!/bin/bash
 
 #docker installation      
-echo "Installing docker..."
-
 #install docker dependencies 
 sudo apt-get install ca-certificates curl gnupg lsb-release -y
 
@@ -24,13 +22,8 @@ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-compose-plugin
 #adds your username to the docker group
 sudo usermod -aG docker ${USER}
 
-echo "docker successfully installed"
-echo "Installing docker compose"
-
 #install docker-compose
 sudo apt-get update
 sudo apt-get install docker-compose-plugin
 
-echo "docker-compose successfully installed"
-
-mkdir -p /opt/wordpress/database && /opt/wordpress/wordpress && /opt/wordpress/caddy
+echo -e "\e[1;34mDocker and Docker Compose have been installed.\e[0m"

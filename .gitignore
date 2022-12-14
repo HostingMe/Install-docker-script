@@ -1,0 +1,4 @@
+.DS_Store
+.nova/
+docker-wordpress-install.sh
+docker-compose.yml
