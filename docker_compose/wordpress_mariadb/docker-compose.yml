@@ -1,0 +1,62 @@
+version: '3'
+
+services:
+  db:
+    container_name: database_wp_1
+    image: mariadb
+    volumes:
+      - ./db_data/:/var/lib/mysql
+    restart: always
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+    networks:
+      - wpsite
+  # phpmyadmin
+  phpmyadmin:
+    depends_on:
+      - db
+    container_name: phpmyadmin
+    image: phpmyadmin/phpmyadmin
+    restart: always
+    ports:
+      - '8788:80'
+    environment:
+      PMA_HOST: db
+      MYSQL_ROOT_PASSWORD: password 
+    networks:
+      - wpsite
+  # Wordpress
+  wordpress:
+    depends_on:
+      - db
+    container_name: wordpress_1
+    image: wordpress:latest
+    ports:
+      - '8787:80'
+    restart: always
+    volumes: ['./www/:/var/www/html']
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+    networks:
+      - wpsite
+  caddy:
+    image: caddy
+    container_name: caddy
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./www:/var/www/html
+      - ./caddy_data:/data
+      - ./Caddyfile:/etc/caddy/Caddyfile
+    networks:
+      - wpsite
+networks:
+  wpsite:
+volumes:
+  db_data:
