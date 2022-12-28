@@ -1,6 +1,7 @@
 version: '3'
-
 services:
+  
+  # Database - MariaDB has been chosen, runs on default port
   db:
     container_name: database_wp_1
     image: mariadb
@@ -14,7 +15,38 @@ services:
       MYSQL_PASSWORD: wordpress
     networks:
       - wpsite
-  # phpmyadmin
+  
+  # Wordpress - FPM-Alpinem default port 9000
+  wordpress:
+    depends_on:
+      - db
+    container_name: wordpress_1
+    image: wordpress:fpm-alpine
+    restart: always
+    volumes: ['./www/:/var/www/html']
+    environment:
+      WORDPRESS_DB_HOST: db:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+    networks:
+      - wpsite
+ 
+  # Caddy Web Server      
+  caddy:
+    image: caddy
+    container_name: caddy
+    ports:
+      - 80:80
+      - 443:443
+    volumes:
+      - ./www:/var/www/html
+      - ./www2:/var/www/html
+      - ./caddy_data:/data
+      - ./Caddyfile:/etc/caddy/Caddyfile
+    networks:
+      - wpsite
+      
+  # phpmyadmin - allows simple db migration, runs on port 8788
   phpmyadmin:
     depends_on:
       - db
@@ -28,35 +60,10 @@ services:
       MYSQL_ROOT_PASSWORD: password 
     networks:
       - wpsite
-  # Wordpress
-  wordpress:
-    depends_on:
-      - db
-    container_name: wordpress_1
-    image: wordpress:latest
-    ports:
-      - '8787:80'
-    restart: always
-    volumes: ['./www/:/var/www/html']
-    environment:
-      WORDPRESS_DB_HOST: db:3306
-      WORDPRESS_DB_USER: wordpress
-      WORDPRESS_DB_PASSWORD: wordpress
-    networks:
-      - wpsite
-  caddy:
-    image: caddy
-    container_name: caddy
-    ports:
-      - 80:80
-      - 443:443
-    volumes:
-      - ./www:/var/www/html
-      - ./caddy_data:/data
-      - ./Caddyfile:/etc/caddy/Caddyfile
-    networks:
-      - wpsite
+  
 networks:
   wpsite:
 volumes:
   db_data:
+  www:
+  caddy_data:
